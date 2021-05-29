@@ -1,14 +1,15 @@
 const { ethers } = require("hardhat");
+require('dotenv').config()
 
 async function main() {
-  // const [deployer] = await ethers.getSigners();
+  const [deployer] = await ethers.getSigners();
 
-  // console.log(
-  //   "Deploying contracts with the account:",
-  //   deployer.address
-  // );
-  // console.log("Account balance:", (await deployer.getBalance()).toString());
-  // We get the contract to deploy
+  console.log(
+    "Deploying contracts with the account:",
+    deployer.address
+  );
+  console.log("Account balance:", (await deployer.getBalance()).toString());
+  
   const Lion = await ethers.getContractFactory("Lion");
   const lion = await Lion.deploy(process.env.DEPLOY_WALLET);
 
