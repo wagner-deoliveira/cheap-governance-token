@@ -20,18 +20,18 @@ describe('scenario:setFeeTo', () => {
   const [wallet] = provider.getWallets()
   const loadFixture = createFixtureLoader([wallet], provider)
 
-  let uni: Contract
+  let lion: Contract
   let timelock: Contract
   let governorAlpha: Contract
   beforeEach(async () => {
     const fixture = await loadFixture(governanceFixture)
-    uni = fixture.uni
+    lion = fixture.lion
     timelock = fixture.timelock
     governorAlpha = fixture.governorAlpha
   })
 
   let factory: Contract
-  beforeEach('deploy uniswap v2', async () => {
+  beforeEach('deploy Cheapswap v2', async () => {
     factory = await deployContract(wallet, UniswapV2Factory, [timelock.address])
   })
 
@@ -40,10 +40,10 @@ describe('scenario:setFeeTo', () => {
     const value = 0
     const signature = 'setFeeTo(address)'
     const calldata = utils.defaultAbiCoder.encode(['address'], [timelock.address])
-    const description = 'Set feeTo on the UniswapV2Factory to the timelock address.'
+    const description = 'Set feeTo on the CheapswapV2Factory to the timelock address.'
 
     // activate balances
-    await uni.delegate(wallet.address)
+    await lion.delegate(wallet.address)
     const { timestamp: now } = await provider.getBlock('latest')
     await mineBlock(provider, now)
 
