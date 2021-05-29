@@ -5,7 +5,7 @@ import "./SafeMath.sol";
 
 contract Lion {
     /// @notice EIP-20 token name for this token
-    string public constant name = "Cheapswap";
+    string public constant name = "Lion governance";
 
     /// @notice EIP-20 token symbol for this token
     string public constant symbol = "LION";
