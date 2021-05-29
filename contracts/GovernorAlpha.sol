@@ -1,4 +1,4 @@
-pragma solidity ^0.7.3;
+pragma solidity ^0.5.16;
 pragma experimental ABIEncoderV2;
 
 contract GovernorAlpha {
@@ -125,7 +125,7 @@ contract GovernorAlpha {
 
         uint startBlock = add256(block.number, votingDelay());
         uint endBlock = add256(startBlock, votingPeriod());
-
+        
         proposalCount++;
         Proposal memory newProposal = Proposal({
             id: proposalCount,
