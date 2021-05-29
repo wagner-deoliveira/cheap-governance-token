@@ -11,7 +11,7 @@ async function main() {
   console.log("Account balance:", (await deployer.getBalance()).toString());
   
   const Lion = await ethers.getContractFactory("Lion");
-  const lion = await Lion.deploy(process.env.DEPLOY_WALLET);
+  const lion = await Lion.deploy(process.env.DEPLOY_WALLET, process.env.MINT_ACCOUNT, process.env.MINTING_ALLOWED_AFTER);
 
   await lion.deployed();
 
