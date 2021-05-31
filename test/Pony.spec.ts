@@ -6,7 +6,7 @@ import { ecsign } from 'ethereumjs-util'
 import { governanceFixture } from './fixtures'
 import { expandTo18Decimals, mineBlock } from './utils'
 
-import Lion from '../build/Lion.json'
+import Pony from '../build/Pony.json'
 
 chai.use(solidity)
 
@@ -18,7 +18,7 @@ const PERMIT_TYPEHASH = utils.keccak256(
   utils.toUtf8Bytes('Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)')
 )
 
-describe('Lion', () => {
+describe('Pony', () => {
   const provider = new MockProvider({
     ganacheOptions: {
       hardfork: 'istanbul',
@@ -29,24 +29,24 @@ describe('Lion', () => {
   const [wallet, other0, other1] = provider.getWallets()
   const loadFixture = createFixtureLoader([wallet], provider)
 
-  let lion: Contract
+  let pony: Contract
   beforeEach(async () => {
     const fixture = await loadFixture(governanceFixture)
-    lion = fixture.lion
+    pony = fixture.pony
   })
 
   it('permit', async () => {
     const domainSeparator = utils.keccak256(
       utils.defaultAbiCoder.encode(
         ['bytes32', 'bytes32', 'uint256', 'address'],
-        [DOMAIN_TYPEHASH, utils.keccak256(utils.toUtf8Bytes('Cheapswap')), 1, lion.address]
+        [DOMAIN_TYPEHASH, utils.keccak256(utils.toUtf8Bytes('Cheapswap')), 1, pony.address]
       )
     )
 
     const owner = wallet.address
     const spender = other0.address
     const value = 123
-    const nonce = await lion.nonces(wallet.address)
+    const nonce = await pony.nonces(wallet.address)
     const deadline = constants.MaxUint256
     const digest = utils.keccak256(
       utils.solidityPack(
@@ -67,57 +67,57 @@ describe('Lion', () => {
 
     const { v, r, s } = ecsign(Buffer.from(digest.slice(2), 'hex'), Buffer.from(wallet.privateKey.slice(2), 'hex'))
 
-    await lion.permit(owner, spender, value, deadline, v, utils.hexlify(r), utils.hexlify(s))
-    expect(await lion.allowance(owner, spender)).to.eq(value)
-    expect(await lion.nonces(owner)).to.eq(1)
+    await pony.permit(owner, spender, value, deadline, v, utils.hexlify(r), utils.hexlify(s))
+    expect(await pony.allowance(owner, spender)).to.eq(value)
+    expect(await pony.nonces(owner)).to.eq(1)
 
-    await lion.connect(other0).transferFrom(owner, spender, value)
+    await pony.connect(other0).transferFrom(owner, spender, value)
   })
 
   it('nested delegation', async () => {
-    await lion.transfer(other0.address, expandTo18Decimals(1))
-    await lion.transfer(other1.address, expandTo18Decimals(2))
+    await pony.transfer(other0.address, expandTo18Decimals(1))
+    await pony.transfer(other1.address, expandTo18Decimals(2))
 
-    let currectVotes0 = await lion.getCurrentVotes(other0.address)
-    let currectVotes1 = await lion.getCurrentVotes(other1.address)
+    let currectVotes0 = await pony.getCurrentVotes(other0.address)
+    let currectVotes1 = await pony.getCurrentVotes(other1.address)
     expect(currectVotes0).to.be.eq(0)
     expect(currectVotes1).to.be.eq(0)
 
-    await lion.connect(other0).delegate(other1.address)
-    currectVotes1 = await lion.getCurrentVotes(other1.address)
+    await pony.connect(other0).delegate(other1.address)
+    currectVotes1 = await pony.getCurrentVotes(other1.address)
     expect(currectVotes1).to.be.eq(expandTo18Decimals(1))
 
-    await lion.connect(other1).delegate(other1.address)
-    currectVotes1 = await lion.getCurrentVotes(other1.address)
+    await pony.connect(other1).delegate(other1.address)
+    currectVotes1 = await pony.getCurrentVotes(other1.address)
     expect(currectVotes1).to.be.eq(expandTo18Decimals(1).add(expandTo18Decimals(2)))
 
-    await lion.connect(other1).delegate(wallet.address)
-    currectVotes1 = await lion.getCurrentVotes(other1.address)
+    await pony.connect(other1).delegate(wallet.address)
+    currectVotes1 = await pony.getCurrentVotes(other1.address)
     expect(currectVotes1).to.be.eq(expandTo18Decimals(1))
   })
 
   it('mints', async () => {
     const { timestamp: now } = await provider.getBlock('latest')
-    const lion = await deployContract(wallet, Lion, [wallet.address, wallet.address, now + 60 * 60])
-    const supply = await lion.totalSupply()
+    const pony = await deployContract(wallet, Pony, [wallet.address, wallet.address, now + 60 * 60])
+    const supply = await pony.totalSupply()
 
-    await expect(lion.mint(wallet.address, 1)).to.be.revertedWith('Lion::mint: minting not allowed yet')
+    await expect(pony.mint(wallet.address, 1)).to.be.revertedWith('Pony::mint: minting not allowed yet')
 
-    let timestamp = await lion.mintingAllowedAfter()
+    let timestamp = await pony.mintingAllowedAfter()
     await mineBlock(provider, timestamp.toString())
 
-    await expect(lion.connect(other1).mint(other1.address, 1)).to.be.revertedWith('Lion::mint: only the minter can mint')
-    await expect(lion.mint('0x0000000000000000000000000000000000000000', 1)).to.be.revertedWith('Lion::mint: cannot transfer to the zero address')
+    await expect(pony.connect(other1).mint(other1.address, 1)).to.be.revertedWith('Pony::mint: only the minter can mint')
+    await expect(pony.mint('0x0000000000000000000000000000000000000000', 1)).to.be.revertedWith('Pony::mint: cannot transfer to the zero address')
 
     // can mint up to 2%
-    const mintCap = BigNumber.from(await lion.mintCap())
+    const mintCap = BigNumber.from(await pony.mintCap())
     const amount = supply.mul(mintCap).div(100)
-    await lion.mint(wallet.address, amount)
-    expect(await lion.balanceOf(wallet.address)).to.be.eq(supply.add(amount))
+    await pony.mint(wallet.address, amount)
+    expect(await pony.balanceOf(wallet.address)).to.be.eq(supply.add(amount))
 
-    timestamp = await lion.mintingAllowedAfter()
+    timestamp = await pony.mintingAllowedAfter()
     await mineBlock(provider, timestamp.toString())
     // cannot mint 2.01%
-    await expect(lion.mint(wallet.address, supply.mul(mintCap.add(1)))).to.be.revertedWith('Lion::mint: exceeded mint cap')
+    await expect(pony.mint(wallet.address, supply.mul(mintCap.add(1)))).to.be.revertedWith('Pony::mint: exceeded mint cap')
   })
 })

@@ -72,8 +72,8 @@
       ]
     },
     "C:\\Users\\DeOliW20137\\Documents\\GitHub\\governance\\contracts\\GovernorAlpha.sol": {
-      "lastModificationDate": 1622318956274,
-      "contentHash": "a9f4e1a8c792d2e33278b3e7841d0b94",
+      "lastModificationDate": 1622498072532,
+      "contentHash": "2039036103808e8f4c7e67d492817a92",
       "sourceName": "contracts/GovernorAlpha.sol",
       "solcConfig": {
         "version": "0.5.16",
@@ -103,44 +103,8 @@
       ],
       "artifacts": [
         "GovernorAlpha",
-        "LionInterface",
+        "PonyInterface",
         "TimelockInterface"
-      ]
-    },
-    "C:\\Users\\DeOliW20137\\Documents\\GitHub\\governance\\contracts\\Lion.sol": {
-      "lastModificationDate": 1622318868710,
-      "contentHash": "a2efa3f61c730a424f1050bc4ce95d1e",
-      "sourceName": "contracts/Lion.sol",
-      "solcConfig": {
-        "version": "0.5.16",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./SafeMath.sol"
-      ],
-      "versionPragmas": [
-        "^0.5.16"
-      ],
-      "artifacts": [
-        "Lion"
       ]
     },
     "C:\\Users\\DeOliW20137\\Documents\\GitHub\\governance\\contracts\\SafeMath.sol": {
@@ -248,6 +212,42 @@
       ],
       "artifacts": [
         "Timelock"
+      ]
+    },
+    "C:\\Users\\DeOliW20137\\Documents\\GitHub\\governance\\contracts\\Pony.sol": {
+      "lastModificationDate": 1622496212148,
+      "contentHash": "fb40357966ad352adf75576c5917cae8",
+      "sourceName": "contracts/Pony.sol",
+      "solcConfig": {
+        "version": "0.5.16",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.5.16"
+      ],
+      "artifacts": [
+        "Pony"
       ]
     }
   }

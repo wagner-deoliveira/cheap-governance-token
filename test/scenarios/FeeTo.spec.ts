@@ -6,7 +6,7 @@ import UniswapV2Factory from '@uniswap/v2-core/build/UniswapV2Factory.json'
 import UniswapV2Pair from '@uniswap/v2-core/build/UniswapV2Pair.json'
 import FeeToSetter from '../../build/FeeToSetter.json'
 import FeeTo from '../../build/FeeTo.json'
-import Lion from '../../build/Lion.json'
+import Pony from '../../build/Pony.json'
 
 import { governanceFixture } from '../fixtures'
 import { mineBlock, expandTo18Decimals } from '../utils'
@@ -70,9 +70,9 @@ describe('scenario:FeeTo', () => {
     const tokens: Contract[] = []
     beforeEach('make test tokens', async () => {
       const { timestamp: now } = await provider.getBlock('latest')
-      const token0 = await deployContract(wallet, Lion, [wallet.address, constants.AddressZero, now + 60 * 60])
+      const token0 = await deployContract(wallet, Pony, [wallet.address, constants.AddressZero, now + 60 * 60])
       tokens.push(token0)
-      const token1 = await deployContract(wallet, Lion, [wallet.address, constants.AddressZero, now + 60 * 60])
+      const token1 = await deployContract(wallet, Pony, [wallet.address, constants.AddressZero, now + 60 * 60])
       tokens.push(token1)
     })
 

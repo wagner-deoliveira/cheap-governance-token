@@ -20,12 +20,12 @@ describe('scenario:setFeeTo', () => {
   const [wallet] = provider.getWallets()
   const loadFixture = createFixtureLoader([wallet], provider)
 
-  let lion: Contract
+  let pony: Contract
   let timelock: Contract
   let governorAlpha: Contract
   beforeEach(async () => {
     const fixture = await loadFixture(governanceFixture)
-    lion = fixture.lion
+    pony = fixture.pony
     timelock = fixture.timelock
     governorAlpha = fixture.governorAlpha
   })
@@ -43,7 +43,7 @@ describe('scenario:setFeeTo', () => {
     const description = 'Set feeTo on the CheapswapV2Factory to the timelock address.'
 
     // activate balances
-    await lion.delegate(wallet.address)
+    await pony.delegate(wallet.address)
     const { timestamp: now } = await provider.getBlock('latest')
     await mineBlock(provider, now)
 
