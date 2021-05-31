@@ -1,8 +1,8 @@
 {
-  "name": "@lion/governance",
+  "name": "@pony/governance",
   "version": "1.0.2",
-  "description": "🏛 Governance contracts for the Lion protocol - Uniswap fork",
-  "author": "Noah Zinsmeister",
+  "description": "🏛 Governance contracts for the Cheapswap protocol - Uniswap fork",
+  "author": "Wagner Rosa",
   "license": "MIT",
   "files": [
     "build"
