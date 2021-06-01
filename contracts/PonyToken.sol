@@ -1,7 +1,7 @@
 pragma solidity ^0.5.16;
 
 import "../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./Pony.sol";
+import "contracts/Pony.sol";
 
 // https://eips.ethereum.org/EIPS/eip-20
 // SPDX-License-Identifier: MIT
